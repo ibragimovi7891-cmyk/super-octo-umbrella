@@ -1,0 +1,162 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1e1e2f, #12121c);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: rgba(30, 30, 47, 0.85);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #4facfe;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+textarea, input[type="number"], select {
+    width: 100%;
+    padding: 12px;
+    background: #2d2d44;
+    border: 1px solid #444466;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+textarea:focus, input[type="number"]:focus, select:focus {
+    border-color: #00f2fe;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.encrypt-btn {
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    color: #12121c;
+}
+
+.encrypt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
+}
+
+.decrypt-btn {
+    background: linear-gradient(135deg, #f857a6, #ff5858);
+    color: #fff;
+}
+
+.decrypt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 87, 166, 0.4);
+}
+
+.result-group {
+    background: #1a1a26;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed #4facfe;
+}
+
+#result {
+    font-size: 16px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    color: #00f2fe;
+}
+2. script.js uchun to'liq kod:
+Keyin script.js faylingiz ichidagi hamma narsani o'chirib, mana bu mantiqiy kodni joylashtiring:
+
+JavaScript
+function processText(action) {
+    const text = document.getElementById('textInput').value;
+    const shift = parseInt(document.getElementById('shiftInput').value) || 0;
+    const method = document.getElementById('methodSelect').value;
+    let result = '';
+
+    if (!text) {
+        document.getElementById('result').innerText = "Iltimos, matn kiriting!";
+        return;
+    }
+
+    if (method === 'caesar') {
+        let currentShift = action === 'encrypt' ? shift : -shift;
+        // Sezar shifrlash algoritmi
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            if (char.match(/[a-z]/i)) {
+                let code = text.charCodeAt(i);
+                if (code >= 65 && code <= 90) {
+                    char = String.fromCharCode(((code - 65 + currentShift) % 26 + 26) % 26 + 65);
+                } else if (code >= 97 && code <= 122) {
+                    char = String.fromCharCode(((code - 97 + currentShift) % 26 + 26) % 26 + 97);
+                }
+            }
+            result += char;
+        }
+    } else if (method === 'base64') {
+        try {
+            if (action === 'encrypt') {
+                result = btoa(unescape(encodeURIComponent(text)));
+            } else {
+                result = decodeURIComponent(escape(atob(text)));
+            }
+        } catch (e) {
+            result = "Xatolik! Base64 formatidagi shifrlangan matn noto'g'ri.";
+        }
+    }
+
+    document.getElementById('result').innerText = result;
+}
