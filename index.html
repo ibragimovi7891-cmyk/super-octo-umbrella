@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoText - Matnni Shifrlash Tizimi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 CryptoText</h1>
+        
+        <div class="input-group">
+            <label for="textInput">Matnni kiriting:</label>
+            <textarea id="textInput" placeholder="Shifrlamoqchi yoki shifrni ochmoqchi bo'lgan matningizni shu yerga yozing..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="methodSelect">Shifrlash usuli:</label>
+            <select id="methodSelect">
+                <option value="caesar">Caesar Cipher (Sezar surish)</option>
+                <option value="base64">Base64 Kodi</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="shiftInput">Kalit (Sezar uchun surish soni):</label>
+            <input type="number" id="shiftInput" value="3" min="1" max="25">
+        </div>
+
+        <div class="btn-group">
+            <button class="encrypt-btn" onclick="processText('encrypt')">🔒 Shifrlash</button>
+            <button class="decrypt-btn" onclick="processText('decrypt')">🔓 Shifrni ochish</button>
+        </div>
+
+        <div class="result-group">
+            <label>Natija:</label>
+            <div id="result">Natija shu yerda ko'rinadi...</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
